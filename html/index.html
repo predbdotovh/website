@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="Pre database search engine">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>PREdb</title>
+        <link rel="stylesheet" href="style.css" />
+        <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <a href="/">PREdb</a>
+                <a href="/about.html">About</a>
+                <a href="/api.html">API</a>
+                <a href="https://github.com/predbdotovh/website">Github</a>
+            </div>
+
+            <div class="content">
+                <div class="input">
+                    <input class="input-query" type="text" placeholder="Search for..." /><a class="input-btn input-go" href="">Go</a> <a class="input-btn input-live" href="?live">Live</a>
+                </div>
+                <div class="status">&nbsp;</div>
+                <div class="table"></div>
+                <div class="pagination"></div>
+            </div>
+
+            <div class="hidden" id="template">
+                <div class="row">
+                    <div class="col col-catgenre">
+                        <span class="cell-cat"></span>
+                        <span class="cell-genre"></span>
+                    </div>
+                    <div class="col col-details">
+                        <span class="cell-name"><span class="rls-name"></span><span class="rls-grp"></span></span>
+                        <span class="cell-nuke hidden"><span class="nuke-reason"></span> - <!-- <span class="nuke-time"></span> - --><span class="nuke-net"></span></span>
+                    </div>
+                    <span class="col col-pretime cell-pretime"></span>
+                    <div class="col col-filesize">
+                        <span class="cell-files"></span>
+                        <span class="cell-size"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script async src="main.js"></script>
+</html>

@@ -1,10 +1,10 @@
 /**
  * Main javascript engine
  */
-var host = 'predb.ovh';
-var apiEndpoint = '/api/v1';
-var apiUrl = 'https://' + host + apiEndpoint;
-var wsUrl = 'wss://' + host + apiEndpoint + '/ws';
+const host = 'predb.ovh';
+const apiEndpoint = '/api/v1';
+const apiUrl = 'https://' + host + apiEndpoint;
+const wsUrl = 'wss://' + host + apiEndpoint + '/ws';
 
 var $input = document.getElementsByClassName('input-query')[0];
 var $btnGo = document.getElementsByClassName('input-go')[0];
@@ -16,7 +16,8 @@ var $tpl = document.getElementById('template');
 var $tplRow = $tpl.getElementsByClassName('row')[0];
 
 var ws = null;
-var validQueryParams = [
+const empty = '\u00A0';
+const validQueryParams = [
     'page',
     'offset',
     'count',
@@ -219,7 +220,7 @@ function websocket() {
  * DOM modifiers
  */
 function status(str) {
-    replaceChildren($status, nodeTxt(str || '\u00A0'));
+    replaceChildren($status, nodeTxt(str || empty));
 }
 
 function newRow(e) {
@@ -230,7 +231,7 @@ function newRow(e) {
 function setRow($r, e) {
     $r.setAttribute('id', e.id);
     replaceChildren($r.getElementsByClassName('cell-cat')[0], nodeLink('/?q=@cat ' + e.cat, e.cat));
-    replaceChildren($r.getElementsByClassName('cell-genre')[0], nodeTxt(e.genre || '\u00A0', 30));
+    replaceChildren($r.getElementsByClassName('cell-genre')[0], nodeTxt(e.genre || empty, 30));
     e.dTeam = '-' + e.team;
     e.dName = e.name.replace(e.dTeam, '');
     //replaceChildren($r.getElementsByClassName('rls-name')[0], nodeLink('/?q=@name ' + e.name, e.dName));

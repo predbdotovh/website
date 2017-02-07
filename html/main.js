@@ -26,6 +26,14 @@ const validQueryParams = [
 ];
 
 /**
+ * Document handlers
+ */
+window.onpopstate = function (e) {
+    setUrl(e.state, true);
+    runUrl();
+}
+
+/**
  * Query input handlers
  */
 function rereadInput() {
@@ -128,10 +136,10 @@ function getAndFill(req) {
                 status('No results');
                 return;
             }
-                var nTime = Math.round(window.performance.now() - perfStart) / 1000;
-                status('Results ' + (j.offset + 1) + '-' +
-                    (j.offset + j.rowCount) + ' of ' + j.total +
-                    ' matches in ' + nTime + ' seconds');
+            var nTime = Math.round(window.performance.now() - perfStart) / 1000;
+            status('Results ' + (j.offset + 1) + '-' +
+                (j.offset + j.rowCount) + ' of ' + j.total +
+                ' matches in ' + nTime + ' seconds');
 
             var fragment = document.createDocumentFragment();
             j.rows.forEach(function (e) {
@@ -372,11 +380,15 @@ function newPageButton(i, qParams, text, active) {
 /**
  * URL functions
  */
-function setUrl(u) {
+function setUrl(u, replace) {
     if (!u) {
         u = window.location.href.replace(window.location.search, '');
     }
-    window.history.replaceState(null, '', u);
+    if (replace) {
+        window.history.replaceState(u, '', u);
+    } else {
+        window.history.pushState(u, '', u);
+    }
 }
 
 function setTitle(title) {

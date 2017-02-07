@@ -110,15 +110,15 @@ function query(str, page) {
     }
 
     setTitle(title);
-    getAndFill(req);
+    hidePageBar();
+    status('Loading');
+    getAndFill(req).then(paginate);
 }
 
 function getAndFill(req) {
     var perfStart = window.performance.now();
     $t.innerHTML = '';
-    status('Loading');
-    hidePageBar();
-    fetch(apiUrl + (req || '/'))
+    return fetch(apiUrl + (req || '/'))
         .then(checkHTTP)
         .then(parseJSON)
         .then(checkStatus)
@@ -128,16 +128,10 @@ function getAndFill(req) {
                 status('No results');
                 return;
             }
-            if (req !== false) {
                 var nTime = Math.round(window.performance.now() - perfStart) / 1000;
-                var bTime = Math.round(j.time * 1000) / 1000;
-                paginate(j);
                 status('Results ' + (j.offset + 1) + '-' +
                     (j.offset + j.rowCount) + ' of ' + j.total +
                     ' matches in ' + nTime + ' seconds');
-            } else {
-                status();
-            }
 
             var fragment = document.createDocumentFragment();
             j.rows.forEach(function (e) {
@@ -145,6 +139,8 @@ function getAndFill(req) {
             }, this);
 
             $t.appendChild(fragment);
+
+            return j;
         }).catch(function (err) {
             status(err.message || 'Internal error');
         });
@@ -154,6 +150,9 @@ function getAndFill(req) {
  * Live websocket engine
  */
 function websocket() {
+    setTitle('Live');
+    hidePageBar();
+    status('Live');
     getAndFill('/live');
     if (ws) {
         ws.close()
@@ -161,8 +160,6 @@ function websocket() {
 
     $input.value = '';
     rereadInput();
-    setTitle('Live');
-    hidePageBar();
 
     ws = new WebSocket(wsUrl);
     ws.onopen = function (e) {
